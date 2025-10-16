@@ -405,6 +405,7 @@ target_link_libraries (clickhouse_compression
         PRIVATE
             ch_contrib::lz4
             ch_contrib::roaring
+            ch_contrib::openzl
 )
 if (TARGET ch_contrib::fastpfor)
     target_link_libraries (clickhouse_compression PRIVATE ch_contrib::fastpfor)
@@ -526,12 +527,14 @@ target_link_libraries(dbms PUBLIC
     ch_contrib::pdqsort)
 
 target_link_libraries(dbms PRIVATE ch_contrib::zstd)
+target_link_libraries(dbms PRIVATE ch_contrib::openzl)
 
 if (TARGET ch_contrib::simdcomp)
     target_link_libraries (dbms PRIVATE ch_contrib::simdcomp)
 endif()
 
 target_link_libraries(clickhouse_common_io PUBLIC ch_contrib::zstd)
+target_link_libraries(clickhouse_common_io PUBLIC ch_contrib::openzl)
 target_link_libraries(clickhouse_common_io PUBLIC ch_contrib::xz)
 
 if (TARGET ch_contrib::pocketfft)
