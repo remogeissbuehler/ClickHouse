@@ -10,9 +10,10 @@
                 <value>NONE</value> <!-- as a baseline -->
                 <value>LZ4</value>
                 <value>ZSTD</value>
-                <value>Delta</value>
+                <!-- <value>Delta</value>
                 <value>T64</value>
-                <value>DoubleDelta</value>
+                <value>DoubleDelta</value> -->
+                <value>OpenZL</value>
             </values>
         </substitution>
         <substitution>
