@@ -179,7 +179,36 @@ ZL_GraphID buildIntSortedCompressor(ZL_Compressor* compressor,  UInt8 width)
 {
         return ZL_Compressor_registerStaticGraph_fromNode1o(
                 compressor, converterNode(width), ZL_Compressor_registerStaticGraph_fromNode1o(
-            compressor,  ZL_NODE_DELTA_INT, ZL_GRAPH_COMPRESS_GENERIC));
+            // compressor,  ZL_NODE_DELTA_INT, ZL_GRAPH_COMPRESS_GENERIC));
+            compressor,  ZL_NODE_DELTA_INT, ZL_GRAPH_FIELD_LZ));
+}
+
+ZL_GraphID buildIntArithmeticCompressor(ZL_Compressor* compressor,  UInt8 width)
+{
+    return ZL_Compressor_registerStaticGraph_fromPipelineNodes1o(
+            compressor,
+            ZL_NODELIST(
+                    converterNode(width),
+                    ZL_NODE_DELTA_INT,
+                    
+            ),
+            ZL_GRAPH_CONSTANT);
+}
+
+ZL_GraphID buildIntDoubleDelta2Compressor(ZL_Compressor* compressor,  UInt8 width)
+{
+    
+    return ZL_Compressor_registerStaticGraph_fromPipelineNodes1o(
+            compressor,
+            ZL_NODELIST(
+                    converterNode(width),
+                    ZL_NODE_DELTA_INT,
+                    ZL_NODE_DELTA_INT,
+                    // ZL_NODE_CONVERT_NUM_TO_SERIAL
+                    // ZL_GRAPH_BITPACK
+                    
+            ),
+            ZL_GRAPH_COMPRESS_GENERIC);
 }
 
 ZL_GraphID buildCompressor(ZL_Compressor* compressor, String mode, UInt8 width)
@@ -191,6 +220,11 @@ ZL_GraphID buildCompressor(ZL_Compressor* compressor, String mode, UInt8 width)
         return buildIntSortedCompressor(compressor, width);
         // return ZL_Compressor_registerStaticGraph_fromNode1o(
         //     compressor,  ZL_NODE_DELTA_INT, ZL_GRAPH_COMPRESS_GENERIC);
+    } else if (mode == "IntArithmetic") {
+        return buildIntArithmeticCompressor(compressor, width);
+    } else if (mode == "IntDoubleDelta2") {
+        return buildIntDoubleDelta2Compressor(compressor, width);
+    
     } else if (mode == "Float") {
         return buildFloatCompressor(compressor, width);
     } else {
